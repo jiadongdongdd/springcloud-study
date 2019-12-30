@@ -1,18 +1,40 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.2.2.RELEASE</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.study.springcloud</groupId>
-    <artifactId>config-client</artifactId>
+
+    <groupId>com.study</groupId>
+    <artifactId>springcloud-study</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>config-client</name>
+    <packaging>war</packaging>
+    <name>springcloud-study</name>
     <description>Demo project for Spring Boot</description>
+
+    <modules>
+        <!--springcloud 服务中心-->
+        <module>eureka-server</module>
+        <!--eureka 服务提供者-->
+        <module>eureka-client</module>
+        <module>eureka-client2</module>
+        <!--提供服务，支持负载均衡整合以上两个服务，加入hystrix熔断器（负责服务见调用时判断服务状态，提供高可靠的服务费）dashboard仪表盘，可视化查看hystrix的执行情况-->
+        <module>eureka-service-ribbon</module>
+        <!--提供服务，支持负载均衡整合ribbon、hystrix-->
+        <module>eureka-service-feign</module>
+        <!--提供服务，Zuul的主要功能是路由转发和过滤器，调用以上两个服务-->
+        <module>service-zuul</module>
+        <!--springcloud配置加载服务，支持git、svn、本地 等配置项的加载-->
+        <module>config-server</module>
+        <!--springcloud配置消费者，使用config-server服务获取的配置项-->
+        <module>config-client</module>
+    </modules>
 
     <properties>
         <java.version>1.8</java.version>
@@ -20,19 +42,6 @@
     </properties>
 
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-config</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-        </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
