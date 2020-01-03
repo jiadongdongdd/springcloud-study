@@ -32,8 +32,11 @@
         <module>service-zuul</module>
         <!--springcloud配置加载服务，支持git、svn、本地 等配置项的加载-->
         <module>config-server</module>
-        <!--springcloud配置消费者，使用config-server服务获取的配置项-->
+        <!--springcloud配置消费者，使用config-server服务获取的配置项
+            集成Spring Cloud Bus 将分布式的节点用轻量的消息代理连接起来。它可以用于广播配置文件的更改或者服务之间的通讯，也可以用于监控。本文要讲述的是用Spring Cloud Bus实现通知微服务架构的配置文件的更改-->
         <module>config-client</module>
+
+
     </modules>
 
     <properties>
