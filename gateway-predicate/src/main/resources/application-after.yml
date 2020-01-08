@@ -1,0 +1,10 @@
+##AfterRoutePredicateFactory，可配置一个时间，当请求的时间在配置时间之后，才交给 router去处理。否则则报错，不通过路由。
+spring:
+  profiles: after
+  cloud:
+    gateway:
+      routes:
+      - id: after_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - After=2020-01-08T16:43:00.547+08:00[Asia/Shanghai] #UTC/格林威治时间格式

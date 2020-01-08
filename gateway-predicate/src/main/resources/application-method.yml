@@ -1,0 +1,10 @@
+##Method Route Predicate Factory是通过HTTP的method来匹配路由
+spring:
+  profiles: method
+  cloud:
+    gateway:
+      routes:
+      - id: method_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - Method=GET

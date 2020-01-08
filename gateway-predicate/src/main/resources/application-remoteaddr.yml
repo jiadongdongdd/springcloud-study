@@ -1,0 +1,14 @@
+##RemoteAddr Route Predicate Factory通过无类别域间路由(IPv4 or IPv6)列表匹配路由
+#RemoteAddr Route Predicate Factory默认情况下，使用的是请求的remote address。但是如果Spring Cloud Gateway是部署在其他的代理后面的，如Nginx，则Spring Cloud Gateway获取请求的remote address是其他代理的ip，而不是真实客户端的ip。
+#考虑到这种情况，你可以自定义获取remote address的处理器RemoteAddressResolver。当然Spring Cloud Gateway也提供了基于X-Forwarded-For请求头的XForwardedRemoteAddressResolver。 熟悉Http代理协议的，都知道X-Forwarded-For头信息做什么的，不熟悉的可以自己谷歌了解一下。
+#XForwardedRemoteAddressResolver提供了两个静态方法获取它的实例： XForwardedRemoteAddressResolver::trustAll得到的RemoteAddressResolver总是获取X-Forwarded-For的第一个ip地址作为remote address，这种方式就比较容易被伪装的请求欺骗，模拟请求很容易通过设置初始的X-Forwarded-For头信息，就可以欺骗到gateway。
+#XForwardedRemoteAddressResolver::maxTrustedIndex得到的RemoteAddressResolver则会在X-Forwarded-For信息里面，从右到左选择信任最多maxTrustedIndex个ip，因为X-Forwarded-For是越往右是越接近gateway的代理机器ip，所以是越往右的ip，信任度是越高的。 那么如果前面只是挡了一层Nginx的话，如果只需要Nginx前面客户端的ip，则maxTrustedIndex取1，就可以比较安全地获取真实客户端ip。
+spring:
+  profiles: remoteaddr
+  cloud:
+    gateway:
+      routes:
+      - id: remoteaddr_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - RemoteAddr=192.168.1.1/24/24 #匹配RemoteAddr诸如192.168.1.10等请求

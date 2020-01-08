@@ -1,0 +1,14 @@
+##Path Route Predicate Factory使用的是path列表作为参数，使用Spring的PathMatcher匹配path，可以设置可选变量。
+spring:
+    profiles: path
+  cloud:
+    gateway:
+      routes:
+      - id: path_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - Path=/foo/{segment},/bar/{segment} #可以匹配诸如：/foo/1 或 /foo/bar 或 /bar/baz等 其中的segment变量可以通过下面方式获取：
+                                             #PathMatchInfo variables = exchange.getAttribute(URI_TEMPLATE_VARIABLES_ATTRIBUTE);
+                                             #Map<String, String> uriVariables = variables.getUriVariables();
+                                             #String segment = uriVariables.get("segment");
+

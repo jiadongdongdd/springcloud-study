@@ -1,0 +1,10 @@
+##Query Route Predicate Factory可以通过一个或两个参数来匹配路由，一个是查询的name，一个是查询的正则value
+spring:
+  profiles: query
+  cloud:
+    gateway:
+      routes:
+      - id: query_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - Query=name, value

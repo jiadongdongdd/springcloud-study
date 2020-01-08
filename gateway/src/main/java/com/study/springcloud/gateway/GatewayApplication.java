@@ -8,6 +8,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
+ * Spring Cloud Gateway依赖Spring Boot和Spring Webflux提供的Netty runtime。它不能在传统的Servlet容器中工作或构建为WAR
  * Spring Cloud Gateway是Spring Cloud官方推出的第二代网关框架，取代Zuul网关。
  * 网关作为流量的，在微服务系统中有着非常作用，网关常见的功能有路由转发、权限校验、限流控制等作用。
  */
@@ -35,8 +36,8 @@ public class GatewayApplication {
                         .uri("http://localhost:8080/success"))
                 .route(p -> p
                         //当请求的host有“*.hystrix.com”
-                        //.host("*.hystrix.com")
-                        .path("/hystrix")
+                        .host("*.hystrix.com")
+                        //.path("/hystrix")
                         .filters(f -> f
                                 //该filter可以配置名称、和指向性fallback的逻辑的地址
                                 .hystrix(config -> config

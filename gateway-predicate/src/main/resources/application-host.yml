@@ -1,0 +1,10 @@
+##Host Route Predicate Factory使用的是host的列表作为参数，host使用Ant style匹配
+spring:
+  profiles: host
+  cloud:
+    gateway:
+      routes:
+      - id: host_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - Host=**.baidu.com,spring.io #路由会匹配Host诸如：w.baidu.com 或 www.baidu.com或spring.io等请求。

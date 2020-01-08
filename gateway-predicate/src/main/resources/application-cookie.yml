@@ -1,0 +1,10 @@
+##Cookie Route Predicate Factory使用的是cookie名字和正则表达式的value作为两个输入参数，请求的cookie需要匹配cookie名和符合其中value的正则
+spring:
+  profiles: cookie
+  cloud:
+    gateway:
+      routes:
+      - id: cookie_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - Cookie=name, dongdong

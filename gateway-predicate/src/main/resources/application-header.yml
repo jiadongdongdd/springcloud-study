@@ -1,0 +1,10 @@
+##Header Route Predicate Factory，与Cookie Route Predicate Factory类似，也是两个参数，一个header的name，一个是正则匹配的value
+spring:
+  profiles: header
+  cloud:
+    gateway:
+      routes:
+      - id: header_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - Header=X-Request-Id, \d+

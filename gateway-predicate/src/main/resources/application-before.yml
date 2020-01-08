@@ -1,0 +1,10 @@
+##Before Route Predicate Factory也是使用时间作为匹配规则，只要当前时间小于设定时间，路由才会匹配请求
+spring:
+  profiles: before
+  cloud:
+    gateway:
+      routes:
+      - id: before_route #路由名称
+        uri: http://www.baidu.com #最终路由目标
+        predicates: #谓语、断言集合，路由规则
+        - Before=2025-10-08T18:12:38.547+08:00[Asia/Shanghai] #UTC/格林威治时间格式
