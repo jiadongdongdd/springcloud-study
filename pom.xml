@@ -35,7 +35,9 @@
         <!--springcloud配置消费者，使用config-server服务获取的配置项
             集成Spring Cloud Bus 将分布式的节点用轻量的消息代理连接起来。它可以用于广播配置文件的更改或者服务之间的通讯，也可以用于监控。本文要讲述的是用Spring Cloud Bus实现通知微服务架构的配置文件的更改-->
         <module>config-client</module>
-
+        <!--Spring Cloud Gateway是Spring Cloud官方推出的第二代网关框架，取代Zuul网关。
+            网关作为流量的，在微服务系统中有着非常作用，网关常见的功能有路由转发、权限校验、限流控制等作用。-->
+        <module>gateway</module>
 
     </modules>
 
