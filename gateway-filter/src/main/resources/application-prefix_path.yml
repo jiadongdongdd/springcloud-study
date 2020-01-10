@@ -1,0 +1,14 @@
+#The PrefixPath GatewayFilter Factor通过设置prefix参数来路径前缀
+######未验证######
+spring:
+  profiles: prefix_path
+  cloud:
+    gateway:
+      routes:
+      - id: prefix_path_route
+        uri: http://localhost:8082
+        filters:
+        #如果请求的路径是/httpbin/get，则gateway会将请求路径改为http://httpbin.org:80/get发送给下游
+        - PrefixPath=/result
+        predicates:
+        - Path=/success

@@ -1,0 +1,17 @@
+spring:
+  profiles: test
+  cloud:
+    gateway:
+      routes:
+      - id: test_route
+        uri: http://httpbin.org:80/get
+        filters:
+        #AddRequestHeader GatewayFilter Factory通过配置name和value可以增加请求的header。
+        - AddRequestHeader=X-Request-Name, Dong
+        #AddRequestParameter GatewayFilter Factory通过配置name和value可以增加请求的参数
+        - AddRequestParameter=username, dong
+        #AddResponseHeader GatewayFilter Factory通过配置name和value可以增加响应的header
+        - AddResponseHeader=X-Response-Name, DongDong
+        predicates:
+        - Path=/get
+

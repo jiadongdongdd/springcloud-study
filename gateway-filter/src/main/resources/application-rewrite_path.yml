@@ -1,0 +1,13 @@
+#RewritePath GatewayFilter Factory使用路径regexp和替换路径replacement两个参数做路径重写，两个都可以灵活地使用java的正则表达式。
+spring:
+  profiles: rewrite_path
+  cloud:
+    gateway:
+      routes:
+      - id: rewrite_path_route
+        uri: http://httpbin.org:80
+        filters:
+        #如果请求的路径是/httpbin/get，则gateway会将请求路径改为http://httpbin.org:80/get发送给下游
+        - RewritePath=/httpbin/(?<segment>.*), /$\{segment}
+        predicates:
+        - Path=/httpbin/**

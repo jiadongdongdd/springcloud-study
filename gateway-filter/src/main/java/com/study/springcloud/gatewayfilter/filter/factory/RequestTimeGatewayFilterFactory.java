@@ -1,0 +1,74 @@
+package com.study.springcloud.gatewayfilter.filter.factory;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.cloud.gateway.filter.GatewayFilter;
+import org.springframework.cloud.gateway.filter.factory.AbstractGatewayFilterFactory;
+import reactor.core.publisher.Mono;
+
+import java.util.Arrays;
+import java.util.List;
+
+/**
+ * @author lenovo
+ */
+public class RequestTimeGatewayFilterFactory extends AbstractGatewayFilterFactory<RequestTimeGatewayFilterFactory.Config> {
+    private static final Log log = LogFactory.getLog(RequestTimeGatewayFilterFactory.class);
+    private static final String REQUEST_TIME_BEGIN = "requestTimeBegin";
+    /**
+     * 参数
+     */
+    private static final String KEY = "withParams";
+
+    @Override
+    public List<String> shortcutFieldOrder() {
+        return Arrays.asList(KEY);
+    }
+
+    /**
+     * 配置参数
+     */
+    public static class Config {
+        /**
+         * 是否打印请求参数的逻辑
+         */
+        private boolean withParams;
+
+        public boolean isWithParams() {
+            return withParams;
+        }
+
+        public void setWithParams(boolean withParams) {
+            this.withParams = withParams;
+        }
+    }
+
+    public RequestTimeGatewayFilterFactory() {
+        super(Config.class);
+    }
+
+    @Override
+    public GatewayFilter apply(Config config) {
+        return (exchange, chain) -> {
+            exchange.getAttributes().put(REQUEST_TIME_BEGIN, System.currentTimeMillis());
+            return chain.filter(exchange).then(
+                    Mono.fromRunnable(() -> {
+                        Long startTime = exchange.getAttribute(REQUEST_TIME_BEGIN);
+                        if (startTime != null) {
+                            StringBuilder sb = new StringBuilder(exchange.getRequest().getURI().getRawPath())
+                                    .append(": ")
+                                    .append(System.currentTimeMillis() - startTime)
+                                    .append("ms");
+                            //根据配置参数判断是否打印请求参数信息
+                            if (config.isWithParams()) {
+                                sb.append(" params:").append(exchange.getRequest().getQueryParams());
+                            }
+                            log.info(sb.toString());
+                        }
+                    })
+            );
+        };
+    }
+
+
+}

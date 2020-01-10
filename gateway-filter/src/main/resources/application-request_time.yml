@@ -1,0 +1,12 @@
+spring:
+  profiles: request_time
+  cloud:
+    gateway:
+      routes:
+      - id: request_time_route
+        uri: http://httpbin.org:80
+        filters:
+        #使用自定义过滤器RequestTimeGateWayFilterFactory 是否打印请求参数
+        - RequestTime=false
+        predicates:
+        - Path=/get
