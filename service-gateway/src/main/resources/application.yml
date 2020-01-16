@@ -1,0 +1,19 @@
+server:
+  port: 8086
+spring:
+  application:
+    name: service-gateway
+  profiles:
+    active: custom
+  cloud:
+    gateway:
+      default-filters: #配置全局路由过滤器，
+        - name: Hystrix
+          args:
+            name: fallbackcmd
+            fallbackUri: forward:/fallback #服务断开后自动熔断，转发服务至指定路径
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8081/eureka/
+

@@ -1,0 +1,11 @@
+spring:
+  profiles: custom
+  cloud:
+    gateway:
+      routes:
+        - id: eureka-client
+          uri: lb://EUREKA-SERVICE #服务的负载均衡地址
+          predicates:
+            - Path=/service/**
+          filters:
+            - StripPrefix=1 #用StripPrefix的filter 在转发之前将/service去掉

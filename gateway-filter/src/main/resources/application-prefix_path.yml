@@ -9,6 +9,8 @@ spring:
         uri: http://localhost:8082
         filters:
         #如果请求的路径是/httpbin/get，则gateway会将请求路径改为http://httpbin.org:80/get发送给下游
-        - PrefixPath=/result
+        - PrefixPath=/result #路由前增加前缀
+        #- StripPrefix=1 #路由前去掉前缀 访问为 /api/2 路由后2
         predicates:
         - Path=/success
+
